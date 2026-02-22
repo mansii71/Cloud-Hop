@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Hop</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="bg-layer-from" class="bg-layer"></div>
+    <div id="bg-layer-to" class="bg-layer"></div>
+    <div class="game-container">
+        <header>
+            <h1>Cloud Hop</h1>
+            <div class="status-bar">
+                <span id="level-indicator">Level: 1</span>
+                <span id="message">Select a cloud to hop on!</span>
+            </div>
+        </header>
+
+        <div class="sky-background">
+            <div id="grid" class="grid">
+                <!-- Tiles will be generated here -->
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="play-btn" disabled>Hoping...</button>
+            <button id="reset-btn" class="hidden">Try Again</button>
+            <p class="disclaimer">⚠️ Game is 100% Luck Based!</p>
+        </div>
+    </div>
+
+    <!-- Audio for later (optional) -->
+    <!-- <audio id="jump-sfx" src="jump.mp3"></audio> -->
+    <!-- <audio id="fall-sfx" src="fall.mp3"></audio> -->
+
+    <script src="script.js"></script>
+</body>
+
+</html>
