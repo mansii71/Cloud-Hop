@@ -56,7 +56,7 @@ function resetLevel(keepPlayer) {
     ui.playBtn.classList.remove('hidden');
 
     if (keepPlayer) {
-        setMessage(`Level ${gameState.level}: Pick a new cloud to hop to!`);
+        setMessage(`Level ${gameState.level}: Pick a new cloud or click yours to stay!`);
     } else {
         setMessage(`Level ${gameState.level}: Pick a safe cloud!`);
     }
@@ -134,11 +134,9 @@ function renderGrid() {
 
 function onTileClick(index) {
     if (!gameState.waitingForPlay || gameState.gameOver) return;
-    if (index === gameState.currentTileIndex) return; // Already here
 
     const previousIndex = gameState.currentTileIndex;
     gameState.currentTileIndex = index;
-    gameState.waitingForPlay = false;
 
     renderGrid();
 
@@ -156,7 +154,8 @@ function onTileClick(index) {
 }
 
 ui.playBtn.addEventListener('click', () => {
-    if (gameState.gameOver) return;
+    if (gameState.gameOver || gameState.currentTileIndex === -1) return;
+    gameState.waitingForPlay = false;
 
     // Trigger falling tiles
     const isSafe = gameState.safeTiles.includes(gameState.currentTileIndex);
@@ -261,3 +260,38 @@ function setMessage(msg) {
 
 // Start
 initGame();
+
+function createBackgroundElements() {
+    // Level 4: Stars
+    const starsContainer = document.createElement('div');
+    starsContainer.id = 'stars-container';
+    ui.body.insertBefore(starsContainer, ui.body.firstChild);
+
+    for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        starsContainer.appendChild(star);
+    }
+
+    // Level 4: Satellites
+    const satellitesContainer = document.createElement('div');
+    satellitesContainer.id = 'satellites-container';
+    ui.body.insertBefore(satellitesContainer, ui.body.firstChild);
+
+    for (let i = 0; i < 2; i++) {
+        const sat = document.createElement('div');
+        sat.classList.add('satellite');
+        sat.textContent = '🛰️';
+        sat.style.top = `${10 + Math.random() * 30}vh`;
+        sat.style.animationDelay = `${Math.random() * 10}s`;
+        sat.style.animationDuration = `${20 + Math.random() * 10}s`;
+        satellitesContainer.appendChild(sat);
+    }
+}
+createBackgroundElements();
