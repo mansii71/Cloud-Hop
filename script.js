@@ -1,3 +1,5 @@
+let gameConfig = [];
+
 const gameState = {
     level: 1,
     currentTileIndex: -1,
@@ -29,25 +31,37 @@ const SKY_GRADIENTS = {
     5: 'linear-gradient(to bottom, #000000, #0a0a2e)' // Level 5 deep space
 };
 
-// Generate ticket according to RTP
+// Generate ticket according to config.json
 function generateTicketOutcome() {
     const rand = Math.random();
-    // Lose L1 (0x bet): 30%
-    if (rand < 0.30) return { outcome: 'lose_level_1', multiplier: 0 };
-    // Clear L1/Lose L2 (0x bet): 30%
-    if (rand < 0.60) return { outcome: 'lose_level_2', multiplier: 0 };
-    // Clear L2/Lose L3 (1x bet): 25%
-    if (rand < 0.85) return { outcome: 'lose_level_3', multiplier: 1 };
-    // Clear L3/Lose L4 (5x bet): 10%
-    if (rand < 0.95) return { outcome: 'lose_level_4', multiplier: 5 };
-    // Clear L4/Lose L5 (20x bet): 4%
-    if (rand < 0.99) return { outcome: 'lose_level_5', multiplier: 20 };
-    // Clear L5 (100x bet): 1%
-    return { outcome: 'win', multiplier: 100 };
+    let cumulativeProbability = 0;
+
+    for (const tier of gameConfig) {
+        cumulativeProbability += tier.probability;
+        if (rand < cumulativeProbability) {
+            return { outcome: tier.outcome, multiplier: tier.multiplier };
+        }
+    }
+
+    // Fallback if math doesn't sum exactly to 1 or fails
+    console.warn("Ticket generation fallback triggered. Check config.json probabilities.");
+    return { outcome: 'lose_level_1', multiplier: 0 };
 }
 
 // Initialize Game
-function initGame() {
+async function initGame() {
+    // Determine if we need to load the config first
+    if (gameConfig.length === 0) {
+        try {
+            const response = await fetch('config.json');
+            gameConfig = await response.json();
+            console.log("Loaded game math config:", gameConfig);
+        } catch (e) {
+            console.error("Failed to load config.json:", e);
+            return; // Cannot start without config
+        }
+    }
+
     gameState.level = 1;
     gameState.persistentFallenTiles = [];
     gameState.gameOver = false;

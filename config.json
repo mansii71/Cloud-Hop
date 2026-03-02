@@ -1,0 +1,38 @@
+[
+  {
+    "outcome": "lose_level_1",
+    "multiplier": 0,
+    "probability": 0.2145,
+    "description": "Fails on Level 1 (0x bet)"
+  },
+  {
+    "outcome": "lose_level_2",
+    "multiplier": 0,
+    "probability": 0.4145,
+    "description": "Clears L1, Fails on L2 (0x bet)"
+  },
+  {
+    "outcome": "lose_level_3",
+    "multiplier": 1,
+    "probability": 0.3000,
+    "description": "Clears L2, Fails on L3 (1x bet)"
+  },
+  {
+    "outcome": "lose_level_4",
+    "multiplier": 5,
+    "probability": 0.0600,
+    "description": "Clears L3, Fails on L4 (5x bet)"
+  },
+  {
+    "outcome": "lose_level_5",
+    "multiplier": 20,
+    "probability": 0.0100,
+    "description": "Clears L4, Fails on L5 (20x bet)"
+  },
+  {
+    "outcome": "win",
+    "multiplier": 100,
+    "probability": 0.0010,
+    "description": "Clears L5 (100x bet)"
+  }
+]
