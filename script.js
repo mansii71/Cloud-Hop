@@ -319,6 +319,7 @@ function handleSuccess() {
             char.classList.add('hopping');
         }
         gameState.gameOver = true;
+        updateUI();
     }
 }
 
@@ -331,10 +332,42 @@ function handleGameOver() {
     ui.playBtn.classList.add('hidden');
     ui.resetBtn.classList.remove('hidden');
     ui.resetBtn.textContent = 'Play Again';
+    updateUI();
 }
 
 function updateUI() {
     ui.levelDisplay.textContent = `Level: ${gameState.level}`;
+
+    // Update Prize Meter
+    const tiers = document.querySelectorAll('.meter-tier');
+    tiers.forEach(tier => {
+        const tierLevel = parseInt(tier.getAttribute('data-level'));
+
+        // Remove all classes first
+        tier.classList.remove('active', 'passed', 'won');
+
+        if (gameState.gameOver) {
+            // Identify the level they actually cleared/won
+            let wonLevel = 0;
+            if (gameState.winAmount === 100) wonLevel = 5;
+            else if (gameState.winAmount === 20) wonLevel = 4;
+            else if (gameState.winAmount === 5) wonLevel = 3;
+            else if (gameState.winAmount === 1) wonLevel = 2;
+
+            if (tierLevel === wonLevel && gameState.winAmount > 0) {
+                tier.classList.add('won');
+            } else if (tierLevel < wonLevel) {
+                tier.classList.add('passed');
+            }
+        } else {
+            // Active gameplay state
+            if (tierLevel === gameState.level) {
+                tier.classList.add('active');
+            } else if (tierLevel < gameState.level) {
+                tier.classList.add('passed');
+            }
+        }
+    });
 }
 
 function setMessage(msg) {

@@ -456,3 +456,107 @@ button:disabled {
     font-style: italic;
     opacity: 0.9;
 }
+
+/* ===== PRIZE METER ===== */
+.prize-meter {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.meter-title {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #FFD700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    padding-bottom: 8px;
+}
+
+.meter-tier {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid transparent;
+}
+
+.meter-tier .tier-level {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.meter-tier .tier-prize {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+/* Active Level Styling */
+.meter-tier.active {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(238, 90, 36, 0.3));
+    border: 1px solid var(--primary-color);
+    transform: scale(1.05) translateX(10px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.meter-tier.active .tier-prize {
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* Passed Level Styling */
+.meter-tier.passed {
+    opacity: 0.5;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.meter-tier.passed .tier-prize {
+    color: #888;
+}
+
+/* Win Styling for active tier when game ends */
+.meter-tier.won {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(253, 185, 49, 0.3));
+    border: 1px solid #FFD700;
+    transform: scale(1.1) translateX(15px);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+    animation: pulseTier 1.5s infinite alternate;
+}
+
+.meter-tier.won .tier-prize {
+    color: #FFD700;
+    font-size: 1.3rem;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes pulseTier {
+    from {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+
+    to {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 5px rgba(255, 255, 255, 0.5) inset;
+    }
+}
